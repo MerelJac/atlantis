@@ -1,5 +1,5 @@
 module "droplet" {
-  source       = "../infra/droplet"
+  source       = "../do/droplet"
 }
 
 resource "null_resource" "ConfigureAnsibleLabelVariable" {
