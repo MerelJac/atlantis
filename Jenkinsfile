@@ -5,8 +5,8 @@ pipeline {
             steps {
                 sh '''
                     node --version
-                    pwd
                     ls
+                    pwd
                 '''
             }
         }
