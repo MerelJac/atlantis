@@ -4,13 +4,17 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                dockerImage = docker.build("project-slug-docker/demo-module/atlantis")
+                script {
+                    dockerImage = docker.build("project-slug-docker/demo-module/atlantis")
+                }
             }
         }
         stage('push') {
             steps {
-                docker.withRegistry("https://artifactory.mjs.dops.stairways.ai", "art_creds") {
-                    dockerImage.push("latest")      
+                script {
+                    docker.withRegistry("https://artifactory.mjs.dops.stairways.ai", "art_creds") {
+                        dockerImage.push("latest")      
+                    }
                 }
             }
         }
