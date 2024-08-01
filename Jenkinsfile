@@ -28,7 +28,7 @@ pipeline {
                         remote.allowAnyHosts = true
                         remote.user = userName
                         remote.passphrase = keyPass
-                        remote.identity = privateKey
+                        remote.identityFile = privateKey
                         sshCommand remote: remote, command: 'curl http://169.254.169.254/metadata/v1/id'
                     }
                 }
