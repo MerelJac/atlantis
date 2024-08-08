@@ -9,18 +9,26 @@ pipeline {
                 }
             }
         }
-        // stage('push') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry("https://artifactory.mjs.dops.stairways.ai", "art_creds") {
-        //                 dockerImage.push("latest")      
-        //             }
-        //         }
-        //     }
-        // }
         stage('push') {
             steps {
                 script {
+                    docker.withRegistry("https://artifactory.mjs.dops.stairways.ai", "art_creds") {
+                        dockerImage.push("latest")      
+                    }
+                }
+            }
+        }
+        stage('deploy') {
+            steps {
+                script {
+
+                    def artUser
+                    def artPass
+                    withCredentials([usernamePassword(usernameVariable: 'artUsername', passwordVariable: 'artPassword')]) {
+                        artUser = artUsername
+                        artPass = artPassword
+                    }
+
                     withCredentials([sshUserPrivateKey(credentialsId: 'jsu-ssh-creds', keyFileVariable: 'privateKey', passphraseVariable: 'keyPass', usernameVariable: 'userName')]) {
                         def remote = [:]
                         remote.name = "debian-test-droplet-sfo03-01"
@@ -29,7 +37,13 @@ pipeline {
                         remote.user = userName
                         remote.passphrase = keyPass
                         remote.identityFile = privateKey
-                        sshCommand remote: remote, command: 'curl http://169.254.169.254/metadata/v1/id'
+                        sshCommand remote: remote, command: '''
+                            curl http://169.254.169.254/metadata/v1/id
+                            cd /usr/docker
+                            docker login https://artifactory.mjs.dops.stairways.ai --username ${artUser} --password ${artPass}
+                            docker pull artifactory.mjs.dops.stairways.ai/project-slug-docker/demo-module/atlantis:latest
+                            docker compose restart
+                        '''
                     }
                 }
             }
