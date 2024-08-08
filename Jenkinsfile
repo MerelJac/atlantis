@@ -41,8 +41,8 @@ pipeline {
                             curl http://169.254.169.254/metadata/v1/id
                             cd /usr/docker
                             docker login https://artifactory.mjs.dops.stairways.ai --username ${artUser} --password ${artPass}
-                            docker pull artifactory.mjs.dops.stairways.ai/project-slug-docker/demo-module/atlantis:latest
-                            docker compose restart
+                            docker compose pull
+                            docker compose up -d
                         '''
                     }
                 }
