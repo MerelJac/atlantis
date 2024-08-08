@@ -24,7 +24,7 @@ pipeline {
 
                     def artUser
                     def artPass
-                    withCredentials([usernamePassword(usernameVariable: 'artUsername', passwordVariable: 'artPassword')]) {
+                    withCredentials([usernamePassword(credentialsId: 'art_creds', usernameVariable: 'artUsername', passwordVariable: 'artPassword')]) {
                         artUser = artUsername
                         artPass = artPassword
                     }
@@ -33,7 +33,7 @@ pipeline {
                         def remote = [:]
                         remote.name = "debian-test-droplet-sfo03-01"
                         remote.host = "147.182.253.167"
-                        remote.allowAnyHosts = true
+                        remote.allowAnyHosts = trues
                         remote.user = userName
                         remote.passphrase = keyPass
                         remote.identityFile = privateKey
