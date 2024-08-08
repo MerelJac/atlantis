@@ -1,7 +1,26 @@
 def dockerImage
+def enableDeploy
 pipeline {
     agent any
     stages {
+        stage('setup') {
+            script {
+                properties([
+                        parameters([
+                            // [$class: 'ChoiceParameter', 
+                            //     choiceType: 'PT_SINGLE_SELECT', 
+                            //     description: 'Force manual deployment',
+                            //     name: 'FORCE_DEPLOY', 
+                            // ],
+                            booleanParam(
+                                defaultValue: false,
+                                description: 'Force manual deployment', 
+                                name: 'FORCE_DEPLOY'
+                            ),
+                        ])
+                    ])
+            }
+        }
         stage('build') {
             steps {
                 script {
@@ -19,6 +38,7 @@ pipeline {
             }
         }
         stage('deploy') {
+            when { expression { params.FORCE_DEPLOY == true || env.BRANCH_NAME == 'master' } }
             steps {
                 script {
 
