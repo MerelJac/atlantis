@@ -24,7 +24,7 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'jsu-ssh-creds', keyFileVariable: 'privateKey', passphraseVariable: 'keyPass', usernameVariable: 'userName')]) {
                         def remote = [:]
                         remote.name = "debian-test-droplet-sfo03-01"
-                        remote.host = "143.198.105.163"
+                        remote.host = "147.182.253.167"
                         remote.allowAnyHosts = true
                         remote.user = userName
                         remote.passphrase = keyPass
