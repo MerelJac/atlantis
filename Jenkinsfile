@@ -4,21 +4,23 @@ pipeline {
     agent any
     stages {
         stage('setup') {
-            script {
-                properties([
-                        parameters([
-                            // [$class: 'ChoiceParameter', 
-                            //     choiceType: 'PT_SINGLE_SELECT', 
-                            //     description: 'Force manual deployment',
-                            //     name: 'FORCE_DEPLOY', 
-                            // ],
-                            booleanParam(
-                                defaultValue: false,
-                                description: 'Force manual deployment', 
-                                name: 'FORCE_DEPLOY'
-                            ),
+            steps {
+                script {
+                    properties([
+                            parameters([
+                                // [$class: 'ChoiceParameter', 
+                                //     choiceType: 'PT_SINGLE_SELECT', 
+                                //     description: 'Force manual deployment',
+                                //     name: 'FORCE_DEPLOY', 
+                                // ],
+                                booleanParam(
+                                    defaultValue: false,
+                                    description: 'Force manual deployment', 
+                                    name: 'FORCE_DEPLOY'
+                                ),
+                            ])
                         ])
-                    ])
+                }
             }
         }
         stage('build') {
