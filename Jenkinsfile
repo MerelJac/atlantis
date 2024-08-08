@@ -33,7 +33,7 @@ pipeline {
                         def remote = [:]
                         remote.name = "debian-test-droplet-sfo03-01"
                         remote.host = "147.182.253.167"
-                        remote.allowAnyHosts = trues
+                        remote.allowAnyHosts = true
                         remote.user = userName
                         remote.passphrase = keyPass
                         remote.identityFile = privateKey
